@@ -1,0 +1,15 @@
+{
+  "name": "yogaflow-sdd",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Spec Driven Development: reservas y lista de espera para YogaFlow",
+  "engines": {"node": ">=22.13.0"},
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node src/seed.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,76 @@
+
+> yogaflow-sdd@1.0.0 test
+> node --test tests/*.test.js
+
+TAP version 13
+# (node:3744) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: CA-01 · 12 reservas, alumna 13 en posición 1 y alumna 14 en posición 2
+ok 1 - CA-01 · 12 reservas, alumna 13 en posición 1 y alumna 14 en posición 2
+  ---
+  duration_ms: 1007.009834
+  type: 'test'
+  ...
+# Subtest: CA-01 · la clase llena permanece en 12; FIFO 13 y 14
+ok 2 - CA-01 · la clase llena permanece en 12; FIFO 13 y 14
+  ---
+  duration_ms: 1347.51217
+  type: 'test'
+  ...
+# Subtest: CA-01 · peticiones simultáneas nunca aumentan el cupo
+ok 3 - CA-01 · peticiones simultáneas nunca aumentan el cupo
+  ---
+  duration_ms: 1215.735281
+  type: 'test'
+  ...
+# Subtest: CA-01 · competencia por el último lugar deja 12 confirmadas y 1 en espera
+ok 4 - CA-01 · competencia por el último lugar deja 12 confirmadas y 1 en espera
+  ---
+  duration_ms: 1100.256556
+  type: 'test'
+  ...
+# Subtest: CA-02 · reservar no consume créditos; duplicados 409; sin créditos 422
+ok 5 - CA-02 · reservar no consume créditos; duplicados 409; sin créditos 422
+  ---
+  duration_ms: 934.906735
+  type: 'test'
+  ...
+# Subtest: CA-03 · cancelar promueve FIFO, audita y notifica
+ok 6 - CA-03 · cancelar promueve FIFO, audita y notifica
+  ---
+  duration_ms: 1031.456369
+  type: 'test'
+  ...
+# Subtest: CA-03 · si la primera espera ya no tiene crédito, se omite y pasa a siguiente
+ok 7 - CA-03 · si la primera espera ya no tiene crédito, se omite y pasa a siguiente
+  ---
+  duration_ms: 997.246174
+  type: 'test'
+  ...
+# Subtest: CA-04 · alumna no puede cancelar reservas ajenas, administración sí
+ok 8 - CA-04 · alumna no puede cancelar reservas ajenas, administración sí
+  ---
+  duration_ms: 882.767514
+  type: 'test'
+  ...
+# Subtest: CA-04 · permisos y CSRF desde HTTP
+ok 9 - CA-04 · permisos y CSRF desde HTTP
+  ---
+  duration_ms: 954.045332
+  type: 'test'
+  ...
+# Subtest: CA-04 · datos sobreviven cierre y apertura de la base de datos
+ok 10 - CA-04 · datos sobreviven cierre y apertura de la base de datos
+  ---
+  duration_ms: 1392.410067
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10947.702779
