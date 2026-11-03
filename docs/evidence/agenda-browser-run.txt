@@ -1,0 +1,8 @@
+Navegador conectado; comprobando la interfaz contra el servidor y SQLite temporales.
+CA-F01: agenda inicial y opciones completas, únicas y ordenadas comprobadas en navegador.
+CA-F02/03: fecha Guatemala, AND, contador, cero resultados y limpieza comprobados.
+CA-F04/05: detalle, navegación, reservar/cancelar, saldo íntegro, actualización y reinicio al salir comprobados.
+CA-F06: labels, anuncios, foco, targets 44px, móvil 360px y los tres roles comprobados en Edge/Chromium.
+CA-F03: agenda sin sesiones tiene su mensaje propio. Verificación de navegador terminada.
+(node:23560) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

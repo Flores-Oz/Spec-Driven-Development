@@ -1,0 +1,27 @@
+# Demostración funcional con datos ficticios. Servicio y disco de pago.
+# Revisar el costo en Render antes de crear los recursos.
+services:
+  - type: web
+    name: yogaflow
+    runtime: node
+    plan: 0.5c-512mb
+    numInstances: 1
+    buildCommand: npm test
+    startCommand: npm run start:production
+    healthCheckPath: /healthz
+    autoDeployTrigger: checksPass
+    disk:
+      name: yogaflow-datos
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: DB_PATH
+        value: /var/data/yogaflow.sqlite
+      - key: DEMO_PASSWORD
+        sync: false

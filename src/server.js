@@ -15,12 +15,18 @@ function cookie(req,name){return (req.headers.cookie||'').split(';').map(x=>x.tr
 function auth(db,req){const raw=cookie(req,'yf_session');if(!raw)return null;const tokenHash=crypto.createHash('sha256').update(raw).digest('hex');const rec=db.prepare('SELECT s.csrf_token, s.expires_at, u.id,u.name,u.email,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=?').get(tokenHash);return rec&&rec.expires_at>new Date().toISOString()?rec:null;}
 function requireAuth(user){if(!user)throw new booking.AppError(401,'UNAUTHENTICATED','Inicia sesión para continuar.');}
 function csrf(req,user){requireAuth(user);if(!equalHex(req.headers['x-csrf-token'],user.csrf_token))throw new booking.AppError(403,'CSRF','Sesión de formulario no válida.');}
-function handleStatic(req,res,pathName){const files={'/':'index.html','/index.html':'index.html','/app.css':'app.css','/app.js':'app.js'};const filename=files[pathName];if(!filename)return false;const ext=path.extname(filename);const contentType=ext==='.css'?'text/css; charset=utf-8':ext==='.js'?'application/javascript; charset=utf-8':'text/html; charset=utf-8';res.writeHead(200,{'content-type':contentType,'cache-control':'no-store','x-content-type-options':'nosniff','content-security-policy':"default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'"});fs.createReadStream(path.join(PUBLIC,filename)).pipe(res);return true;}
-function createApp({db=openDatabase(),autoSeed=false}={}){
+function handleStatic(req,res,pathName){const files={'/':'index.html','/index.html':'index.html','/app.css':'app.css','/app.js':'app.js','/agenda.js':'agenda.js'};const filename=files[pathName];if(!filename)return false;const ext=path.extname(filename);const contentType=ext==='.css'?'text/css; charset=utf-8':ext==='.js'?'application/javascript; charset=utf-8':'text/html; charset=utf-8';res.writeHead(200,{'content-type':contentType,'cache-control':'no-store','x-content-type-options':'nosniff','content-security-policy':"default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'"});fs.createReadStream(path.join(PUBLIC,filename)).pipe(res);return true;}
+function createApp({db=openDatabase(),autoSeed=false,demoAccounts=process.env.NODE_ENV!=='production',secureCookies=process.env.COOKIE_SECURE==='true'}={}){
+ if(autoSeed&&!demoAccounts)throw Error('El seed local está deshabilitado en producción. Usa npm run start:production.');
  if(autoSeed&&db.prepare('SELECT COUNT(*) AS n FROM users').get().n===0)seed(db);
  const server=http.createServer(async(req,res)=>{
   try{
    const url=new URL(req.url,'http://localhost');const pathname=url.pathname;
+   if(req.method==='GET'&&pathname==='/healthz'){db.prepare('SELECT 1').get();return json(res,200,{status:'ok'});}
+   if(req.method==='GET'&&pathname==='/config.js'){
+    res.writeHead(200,{'content-type':'text/javascript; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'});
+    return res.end(`globalThis.YOGAFLOW_CONFIG=${JSON.stringify({demoAccounts})};`);
+   }
    if(req.method==='GET'&&handleStatic(req,res,pathname))return;
    const user=auth(db,req);
    if(req.method==='POST'&&pathname==='/api/login'){
@@ -29,7 +35,7 @@ function createApp({db=openDatabase(),autoSeed=false}={}){
     if(!person||!verifyPassword(payload.password,person.password_hash))throw new booking.AppError(401,'INVALID_CREDENTIALS','Correo o contraseña incorrectos.');
     const token=crypto.randomBytes(32).toString('hex'),csrfToken=crypto.randomBytes(24).toString('hex');
     db.prepare('INSERT INTO sessions(token_hash,user_id,csrf_token,expires_at) VALUES(?,?,?,?)').run(crypto.createHash('sha256').update(token).digest('hex'),person.id,csrfToken,new Date(Date.now()+24*3600*1000).toISOString());
-    const secure=process.env.COOKIE_SECURE==='true'?'; Secure':'';
+    const secure=secureCookies?'; Secure':'';
     return json(res,200,{user:{id:person.id,name:person.name,role:person.role,email:person.email},csrfToken},{'set-cookie':`yf_session=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400${secure}`});
    }
    if(req.method==='POST'&&pathname==='/api/logout'){
@@ -55,5 +61,5 @@ function createApp({db=openDatabase(),autoSeed=false}={}){
  });
  return {server,db};
 }
-if(require.main===module){const {server}=createApp({autoSeed:true});const port=Number(process.env.PORT||3000);server.listen(port,'0.0.0.0',()=>console.log(`YogaFlow → http://localhost:${port}`));}
+if(require.main===module){if(process.env.NODE_ENV==='production'){console.error('Usa npm run start:production para iniciar con configuración de producción.');process.exitCode=1;}else{const {server}=createApp({autoSeed:true});const port=Number(process.env.PORT||3000);server.listen(port,'0.0.0.0',()=>console.log(`YogaFlow → http://localhost:${port}`));}}
 module.exports={createApp};

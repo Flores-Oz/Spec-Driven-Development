@@ -1,8 +1,7 @@
 'use strict';
 const crypto=require('node:crypto');
-const path=require('node:path');
-const fs=require('node:fs');
 const {openDatabase}=require('./db');
+const LOCAL_PASSWORD='DemoYoga#2026';
 function hashPassword(pass){const salt=crypto.randomBytes(16).toString('hex');return `${salt}:${crypto.scryptSync(pass,salt,64).toString('hex')}`;}
 const demos=[
  ['admin','Andrea Morales','andrea@yogaflow.demo','admin'],
@@ -24,8 +23,11 @@ const demos=[
  ['s15','Julia Méndez','julia@yogaflow.demo','student']
 ];
 function nextDayAt(offsetDays,hour){const d=new Date();d.setUTCDate(d.getUTCDate()+offsetDays);d.setUTCHours(hour,0,0,0);return d.toISOString();}
-function seed(db){const total=db.prepare('SELECT COUNT(*) AS n FROM users').get().n;if(total>0)throw Error('La base de datos ya tiene usuarios. Para regenerar use una base vacía.');
- const insert=db.prepare('INSERT INTO users(id,name,email,role,password_hash) VALUES(?,?,?,?,?)');for(const u of demos)insert.run(...u,hashPassword('DemoYoga#2026'));
+function seed(db,{password=LOCAL_PASSWORD}={}){
+ if(typeof password!=='string'||password.length===0)throw Error('La contraseña de demostración debe ser un texto no vacío.');
+ if(process.env.NODE_ENV==='production'&&(password===LOCAL_PASSWORD||password.length<16))throw Error('En producción configura DEMO_PASSWORD e inicia con npm run start:production.');
+ const total=db.prepare('SELECT COUNT(*) AS n FROM users').get().n;if(total>0)throw Error('La base de datos ya tiene usuarios. Para regenerar use una base vacía.');
+ const insert=db.prepare('INSERT INTO users(id,name,email,role,password_hash) VALUES(?,?,?,?,?)');for(const u of demos)insert.run(...u,hashPassword(password));
  const pkg=db.prepare('INSERT INTO student_packages(user_id,total,used) VALUES(?,10,?)');for(const u of demos.filter(x=>x[3]==='student'))pkg.run(u[0],u[0]==='s13'?0:2);
  const cls=db.prepare('INSERT INTO class_sessions(id,name,instructor,start_at,end_at,capacity,status) VALUES(?,?,?,?,?,12,\'scheduled\')');
  cls.run('c1','Yoga suave','Camila Ruiz',nextDayAt(2,14),nextDayAt(2,15));
@@ -38,5 +40,8 @@ function seed(db){const total=db.prepare('SELECT COUNT(*) AS n FROM users').get(
  db.prepare("INSERT INTO reservations(class_id,user_id,status,created_at,updated_at) VALUES('c2','s13','confirmed',?,?)").run(t,t);
  db.prepare("INSERT INTO notifications(user_id,type,message,created_at) VALUES('s13','confirmed','Tu lugar en Vinyasa flow está confirmado. No se descontaron clases.',?)").run(t);
 }
-if(require.main===module){const db=openDatabase();try{seed(db);console.log('Datos de demostración listos. Contraseña común: DemoYoga#2026');}finally{db.close();}}
+if(require.main===module){
+ if(process.env.NODE_ENV==='production'){console.error('El seed local está deshabilitado en producción. Usa npm run start:production con DEMO_PASSWORD.');process.exitCode=1;}
+ else {const db=openDatabase();try{seed(db);console.log('Datos ficticios de demostración local listos. Consulta el acceso local en README.md.');}finally{db.close();}}
+}
 module.exports={seed,hashPassword,demos};

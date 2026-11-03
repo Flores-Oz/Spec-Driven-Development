@@ -3,74 +3,148 @@
 > node --test tests/*.test.js
 
 TAP version 13
-# (node:3744) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# Subtest: CA-F01 · sin filtros conserva todas las sesiones y su orden sin modificar la agenda
+ok 1 - CA-F01 · sin filtros conserva todas las sesiones y su orden sin modificar la agenda
+  ---
+  duration_ms: 2.163
+  type: 'test'
+  ...
+# Subtest: CA-F01 · opciones únicas, fechas ascendentes y nombres en orden español desde la agenda completa
+ok 2 - CA-F01 · opciones únicas, fechas ascendentes y nombres en orden español desde la agenda completa
+  ---
+  duration_ms: 4.9881
+  type: 'test'
+  ...
+# Subtest: CA-F02 · fecha de clase usa Guatemala cuando UTC y la zona del dispositivo difieren
+ok 3 - CA-F02 · fecha de clase usa Guatemala cuando UTC y la zona del dispositivo difieren
+  ---
+  duration_ms: 1.0672
+  type: 'test'
+  ...
+# Subtest: CA-F02 · filtra instructora y combina día e instructora con AND
+ok 4 - CA-F02 · filtra instructora y combina día e instructora con AND
+  ---
+  duration_ms: 1.3121
+  type: 'test'
+  ...
+# Subtest: CA-F03 · contador distingue resultado único, parcial, vacío y agenda vacía
+ok 5 - CA-F03 · contador distingue resultado único, parcial, vacío y agenda vacía
+  ---
+  duration_ms: 0.5737
+  type: 'test'
+  ...
+# Subtest: CA-F04 · actualización conserva filtros válidos y reinicia únicamente la selección ausente
+ok 6 - CA-F04 · actualización conserva filtros válidos y reinicia únicamente la selección ausente
+  ---
+  duration_ms: 1.1204
+  type: 'test'
+  ...
+# Subtest: CA-F05 · filtrar no altera estados propios, ocupación ni compromisos de la agenda completa
+ok 7 - CA-F05 · filtrar no altera estados propios, ocupación ni compromisos de la agenda completa
+  ---
+  duration_ms: 0.3375
+  type: 'test'
+  ...
+# (node:7988) ExperimentalWarning: SQLite is an experimental feature and might change at any time
 # (Use `node --trace-warnings ...` to show where the warning was created)
 # Subtest: CA-01 · 12 reservas, alumna 13 en posición 1 y alumna 14 en posición 2
-ok 1 - CA-01 · 12 reservas, alumna 13 en posición 1 y alumna 14 en posición 2
+ok 8 - CA-01 · 12 reservas, alumna 13 en posición 1 y alumna 14 en posición 2
   ---
-  duration_ms: 1007.009834
+  duration_ms: 1519.0111
   type: 'test'
   ...
 # Subtest: CA-01 · la clase llena permanece en 12; FIFO 13 y 14
-ok 2 - CA-01 · la clase llena permanece en 12; FIFO 13 y 14
+ok 9 - CA-01 · la clase llena permanece en 12; FIFO 13 y 14
   ---
-  duration_ms: 1347.51217
+  duration_ms: 1348.0672
   type: 'test'
   ...
 # Subtest: CA-01 · peticiones simultáneas nunca aumentan el cupo
-ok 3 - CA-01 · peticiones simultáneas nunca aumentan el cupo
+ok 10 - CA-01 · peticiones simultáneas nunca aumentan el cupo
   ---
-  duration_ms: 1215.735281
+  duration_ms: 3099.6095
   type: 'test'
   ...
 # Subtest: CA-01 · competencia por el último lugar deja 12 confirmadas y 1 en espera
-ok 4 - CA-01 · competencia por el último lugar deja 12 confirmadas y 1 en espera
+ok 11 - CA-01 · competencia por el último lugar deja 12 confirmadas y 1 en espera
   ---
-  duration_ms: 1100.256556
+  duration_ms: 2425.351
   type: 'test'
   ...
 # Subtest: CA-02 · reservar no consume créditos; duplicados 409; sin créditos 422
-ok 5 - CA-02 · reservar no consume créditos; duplicados 409; sin créditos 422
+ok 12 - CA-02 · reservar no consume créditos; duplicados 409; sin créditos 422
   ---
-  duration_ms: 934.906735
+  duration_ms: 2015.868
   type: 'test'
   ...
 # Subtest: CA-03 · cancelar promueve FIFO, audita y notifica
-ok 6 - CA-03 · cancelar promueve FIFO, audita y notifica
+ok 13 - CA-03 · cancelar promueve FIFO, audita y notifica
   ---
-  duration_ms: 1031.456369
+  duration_ms: 2204.6223
   type: 'test'
   ...
 # Subtest: CA-03 · si la primera espera ya no tiene crédito, se omite y pasa a siguiente
-ok 7 - CA-03 · si la primera espera ya no tiene crédito, se omite y pasa a siguiente
+ok 14 - CA-03 · si la primera espera ya no tiene crédito, se omite y pasa a siguiente
   ---
-  duration_ms: 997.246174
+  duration_ms: 2015.7496
   type: 'test'
   ...
 # Subtest: CA-04 · alumna no puede cancelar reservas ajenas, administración sí
-ok 8 - CA-04 · alumna no puede cancelar reservas ajenas, administración sí
+ok 15 - CA-04 · alumna no puede cancelar reservas ajenas, administración sí
   ---
-  duration_ms: 882.767514
+  duration_ms: 1964.2694
   type: 'test'
   ...
 # Subtest: CA-04 · permisos y CSRF desde HTTP
-ok 9 - CA-04 · permisos y CSRF desde HTTP
+ok 16 - CA-04 · permisos y CSRF desde HTTP
   ---
-  duration_ms: 954.045332
+  duration_ms: 2231.1428
   type: 'test'
   ...
 # Subtest: CA-04 · datos sobreviven cierre y apertura de la base de datos
-ok 10 - CA-04 · datos sobreviven cierre y apertura de la base de datos
+ok 17 - CA-04 · datos sobreviven cierre y apertura de la base de datos
   ---
-  duration_ms: 1392.410067
+  duration_ms: 1868.0379
   type: 'test'
   ...
-1..10
-# tests 10
+# (node:10316) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: CA-D01 · producción rechaza rutas relativas y contraseñas incompletas o locales
+ok 18 - CA-D01 · producción rechaza rutas relativas y contraseñas incompletas o locales
+  ---
+  duration_ms: 9.5832
+  type: 'test'
+  ...
+# Subtest: CA-D01 · contraseña runtime funciona, acceso local falla y cookie es segura
+ok 19 - CA-D01 · contraseña runtime funciona, acceso local falla y cookie es segura
+  ---
+  duration_ms: 3067.4648
+  type: 'test'
+  ...
+# Subtest: CA-D01 · rechaza una base local existente sin cambiar contraseñas ni reservas
+ok 20 - CA-D01 · rechaza una base local existente sin cambiar contraseñas ni reservas
+  ---
+  duration_ms: 2618.5649
+  type: 'test'
+  ...
+# Subtest: CA-D01 · reiniciar conserva contraseña, sesión, reservas y notificaciones
+ok 21 - CA-D01 · reiniciar conserva contraseña, sesión, reservas y notificaciones
+  ---
+  duration_ms: 6646.5532
+  type: 'test'
+  ...
+# Subtest: CA-D01 · seed de consola se bloquea en producción sin crear archivos ni imprimir contraseñas
+ok 22 - CA-D01 · seed de consola se bloquea en producción sin crear archivos ni imprimir contraseñas
+  ---
+  duration_ms: 79.7403
+  type: 'test'
+  ...
+1..22
+# tests 22
 # suites 0
-# pass 10
+# pass 22
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 10947.702779
+# duration_ms 20893.7031
