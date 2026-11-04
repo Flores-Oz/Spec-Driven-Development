@@ -18,7 +18,7 @@ Si prefieres no ejecutar `seed` el primer inicio en `npm start` crea datos de pr
 
 ### Credenciales ficticias
 
-Contraseña para todas las cuentas: `DemoYoga#2026`
+Contraseña para todas las cuentas: `YouYouMisterWithe#234`
 
 - Administradora: `andrea@yogaflow.demo`
 - Alumna: `maria@yogaflow.demo`
