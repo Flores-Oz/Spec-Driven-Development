@@ -69,3 +69,17 @@ Los objetivos de búsqueda en menos de 30 segundos, hasta 3 acciones y recuperac
 - `render.yaml` y el workflow de GitHub Actions están preparados, pero no se han ejecutado ni validado en sus servicios remotos. El servicio/disco de Render requieren un plan de pago; no se crearon recursos.
 - Correos externos, compra de paquetes, check-in y consumos están fuera de SPEC-001.
 - Las credenciales conocidas siguen siendo exclusivamente locales. El nuevo arranque de producción exige una contraseña runtime propia y rechaza una base que todavía admita el acceso local. El despliegue preparado es una demostración con datos ficticios, sin registro público de alumnas reales.
+
+## Rediseño visual · 3 de noviembre de 2026
+
+Se actualizaron acceso, navegación, saldo, agenda, administración y detalle con la identidad editorial de YogaFlow. Se añadió un panel de próxima reserva confirmada que abre el detalle existente, con estado vacío cuando no hay reservas confirmadas. No se modificaron API, datos ni reglas de negocio.
+
+Validación ejecutada sobre el código actualizado:
+
+- `npm.cmd test`: 22 pruebas aprobadas, 0 fallidas, 0 omitidas; Node.js 22.16.0, bases temporales. Se verificaron cupos, créditos, FIFO, autorización, filtros y configuración de producción.
+- `node --check public/app.js`: correcto.
+- `node tests/agenda-browser.cjs`: comprobación real en Edge con SQLite temporal. Los tres roles conservan los filtros y permisos. Reserva y cancelación siguen funcionando. Se verificaron el panel de próxima reserva, la apertura de su detalle y el estado vacío.
+- Navegador: controles de filtros y limpieza >=44 px, labels, anuncio de resultados, conservación del foco y ausencia de desbordamiento a 360 y 1280 px. También se comprobó el acceso a 360 px.
+- Capturas revisadas visualmente en `screenshots/rediseno/`: acceso en escritorio y móvil, agenda de alumna y administración. Los escenarios usan datos ficticios de 2099. El registro final del navegador está en `rediseno-browser-run.txt`.
+
+El primer intento del navegador en el entorno restringido no respondió a CDP. La ejecución fuera de esa restricción, autorizada por el entorno, completó las comprobaciones con el sandbox de Edge habilitado. No se realizó publicación ni prueba con personas o lector de pantalla.

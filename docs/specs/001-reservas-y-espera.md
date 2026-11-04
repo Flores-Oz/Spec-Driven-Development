@@ -68,3 +68,7 @@ Errores controlados con `{error,code}`; estados 400/401/403/404/409/422. No conf
 
 ## 7. Evidencia
 Pruebas en `tests/` y resultados en `docs/evidence/criterios.md`.
+
+## 8. Revisión visual · 3 de noviembre de 2026
+
+Actualizar acceso, navegación, agenda y paneles con una composición editorial de estudio: fondo marfil, navegación clara, títulos serif, saldo en verde bosque y acentos terracota. Priorizar agenda y próxima reserva sobre tarjetas de indicadores repetidas. La próxima reserva confirmada abre el detalle existente; si no existe, mostrar un estado vacío. Mantener filtros, textos de estado, permisos y contratos de reserva. No incorporar módulos, servicios ni fuentes externas. Verificar los flujos existentes en navegador a 360 y 1280 px, controles táctiles de 44 px y pruebas de negocio.

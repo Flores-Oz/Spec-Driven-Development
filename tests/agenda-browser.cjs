@@ -130,7 +130,16 @@ async function main() {
     };
     assert.equal(await evaluate('1+1'), 2, 'CDP evalúa JavaScript');
     await command('Page.navigate', {url:base});
+    await noOverflow(360);
+    await screenshot('rediseno-acceso-movil.png');
+    await noOverflow(1280);
+    await screenshot('rediseno-acceso.png');
     await login('maria@yogaflow.demo');
+    assert.ok(await evaluate(`document.querySelector('.next-class').textContent.includes('Vinyasa flow')`), 'Próxima reserva confirmada visible');
+    await click('.next-class [data-detail]');
+    await waitFor('[data-action="close"]');
+    assert.ok(await evaluate(`document.querySelector('.drawer h2').textContent.includes('Vinyasa flow')`), 'Próxima reserva abre su detalle');
+    await click('[data-action="close"]');
     let current = await snapshot();
     assert.deepEqual(current.ids, ['c1','c2','c3','c4']);
     assert.deepEqual(current.dias, ['', '2099-11-02','2099-11-03','2099-11-04']);
@@ -152,6 +161,7 @@ async function main() {
     assert.equal(accessible.role, 'status');
     assert.equal(accessible.live, 'polite');
     await noOverflow(360);
+    await screenshot('rediseno-alumna-movil.png');
     await screenshot('filtros-movil.png', true);
     await noOverflow(1280);
     await screenshot('filtros-escritorio.png');
@@ -231,6 +241,7 @@ async function main() {
     assert.equal((await snapshot()).instructora, '', 'Recargar la página reinicia los filtros');
     await logout();
     await login('andrea@yogaflow.demo');
+    await screenshot('rediseno-administradora.png');
     await select('#filtro-instructora', 'Valeria León');
     assert.deepEqual((await snapshot()).ids, ['c4','c2']);
     assert.ok(await evaluate(`document.querySelector('.hero-side').textContent.includes('4')`), 'Resumen administrativo completo');
@@ -254,6 +265,7 @@ async function main() {
     db.prepare("UPDATE class_sessions SET status='cancelled'").run();
     await login('maria@yogaflow.demo');
     assert.equal((await snapshot()).resumen, '0 clases');
+    assert.ok(await evaluate(`document.querySelector('.next-class').textContent.includes('Tu mat te espera.')`), 'Próxima reserva vacía tiene un mensaje claro');
     assert.ok(await evaluate(`document.querySelector('#lista-clases').textContent.includes('No hay clases próximas')`));
     assert.equal(await evaluate(`document.querySelector('#lista-clases').textContent.includes('No hay clases con estos filtros')`), false);
     console.log('CA-F03: agenda sin sesiones tiene su mensaje propio. Verificación de navegador terminada.');
