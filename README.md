@@ -26,7 +26,7 @@ Contraseña para todas las cuentas: `YouYouMisterWithe#234`
 
 El formulario tiene botones para introducir estos usuarios de prueba. No usar estas credenciales en entornos públicos.
 
-## Encontrar tu próxima clase · Entrega 3
+## Encontrar tu próxima clase 
 
 Entra como María. En **Encuentra tu momento**, elige un día, una instructora o ambos. Las fechas corresponden a America/Guatemala; los resultados muestran sus cupos y el estado de tu reserva. «Limpiar filtros» vuelve a la agenda completa. **Mis reservas** y el saldo se mantienen completos aunque filtres otra clase.
 
@@ -36,18 +36,6 @@ Los filtros también están en las agendas de Andrea y Camila. Se conservan al a
 npm test               # lógica de filtros, reglas de reservas y arranque de producción
 npm run test:browser   # prueba real con Edge/Chrome/Chromium instalado
 ```
-
-La prueba de navegador usa una base en memoria y no modifica `data/`. Detecta rutas habituales de Edge/Chrome/Chromium; se puede indicar otra mediante `CHROME_PATH`. No requiere paquetes npm. En PowerShell, si la política bloquea `npm.ps1`, utiliza `npm.cmd test`, `npm.cmd start` o `npm.cmd run test:browser`.
-
-## Publicación preparada, pendiente
-
-La persona usuaria decidió dejar la publicación pendiente el 2 de noviembre de 2026. **Esta actualización todavía no tiene una URL pública verificada.** Los pasos y el estado de la tarea están en [`docs/entrega-3.md`](docs/entrega-3.md).
-
-[`render.yaml`](render.yaml) prepara un servicio Node.js con una sola instancia, disco persistente en `/var/data` y comprobación `/healthz`. El servicio y el disco requieren un plan de pago; no se han contratado recursos. La base no debe alojarse en el filesystem efímero de un servicio gratuito. Véase la [documentación de discos de Render](https://render.com/docs/disks).
-
-El comando `npm run start:production` exige `DB_PATH` absoluta y una contraseña propia de al menos 16 caracteres en `DEMO_PASSWORD`. Inicializa únicamente una base vacía, con datos ficticios y esa contraseña; nunca reemplaza cuentas al reiniciar. Rechaza bases que todavía admitan la contraseña local, habilita cookies `Secure` y oculta los accesos locales del formulario. La contraseña se configura en el alojamiento y se comparte por un canal privado; no debe incluirse en el repositorio. Cambiar `DEMO_PASSWORD` después de la inicialización no rota las contraseñas guardadas.
-
-El workflow [Pruebas YogaFlow](.github/workflows/pruebas.yml) ejecutará `npm test` con Node.js 22 al subir los cambios a GitHub. Render está configurado para desplegar cuando pasen los checks. El workflow aún no se ha ejecutado en GitHub y no se ha realizado un despliegue.
 
 ## Probar el feature
 
